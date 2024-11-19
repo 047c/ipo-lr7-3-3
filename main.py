@@ -2,6 +2,7 @@ import json
 
 decor = "=" * 22
 status = True
+counter = 0
 while status:
     memory_status = False
     status = True
@@ -61,11 +62,14 @@ while status:
         if not memory_status:
             print(f"\nЗапись со значением ID {find} не найдена.")
     elif check == 5:
-        print("Выхожу из программы")
+        print(f"Количество выполненных операций с записями: {counter}")
+        print("Выхожу из программы...")
         status = False
     else:
         print("Вы ввели некорретное значение!")
+        counter -= 1
     file.close()
+    counter += 1
     with open("dump.json", "w", encoding='utf-8') as file:
         json.dump(dump, file, indent=4, ensure_ascii=False)
     check = 0
