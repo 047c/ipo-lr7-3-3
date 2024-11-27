@@ -4,6 +4,7 @@ decor = "=" * 22
 status = True
 counter = 0
 while status:
+    valid = True
     memory_status = False
     status = True
     file = open("dump.json", "r", encoding='utf-8')
@@ -35,12 +36,22 @@ while status:
         if not memory_status:
             print("/nЗапись по вашему ID не найдена!")
     elif check == 3:
+        string_status = "видимости"
         id_d = int(input("Введите значение ID предмета: "))
         name = input("Введите общее название звезды: ")
         constellation = input("Введите название созвездия: ")
         is_visible = input("Укажите, видима ли звезда без телескопа: (1 - видима, 0 - не видима)")
-        radius = input("Введите радус: ")
-        is_visible = "True" if is_visible == "1" else "False"
+        radius = input("Введите радиус: ")
+        if is_visible == "1":
+            is_visible = True
+        elif is_visible == "0":
+            is_visible = False
+        else:
+            valid = False
+        for item in dump:
+            if item["id"] == id_d:
+                string_status = "ID (такая звезда уже существует)"
+                valid = False
         new_item = {
             "id": id_d,
             "name": name,
@@ -48,8 +59,11 @@ while status:
             "is_visible": is_visible,
             "radius": radius
         }
-        dump.append(new_item)
-        print("\nЗапись успешно добавлена!")
+        if valid:
+            dump.append(new_item)
+            print("\nЗапись успешно добавлена!")
+        else:
+            print(f"Введите корректное значение {string_status} звезды.")
     elif check == 4:
         find = int(input("Введите значение ID, запись которой нужно удалить: "))
         print(f"{decor}======{decor}")
